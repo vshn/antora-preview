@@ -1,0 +1,27 @@
+site:
+  title: "Preview Documentation"
+  url: http://localhost/
+  start_page: COMPONENT_NAME::index.adoc
+content:
+  sources:
+  - url: /antora
+    branches: HEAD         # "HEAD" uses whichever branch is currently checked out
+    start_path: ANTORA_PATH
+ui:
+  bundle:
+    url: https://github.com/vshn/antora-ui-default/releases/download/1.7/ui-bundle.zip
+    snapshot: false
+asciidoc:
+  attributes:
+    hide-uri-scheme: ''
+    experimental: ''
+    stem: ''
+    icons: font
+    kroki-server-url: https://vshn-kroki.appuioapp.ch
+  extensions:
+  - asciidoctor-kroki
+output:
+  destinations:
+  - provider: fs
+    path: ./public
+    clean: true

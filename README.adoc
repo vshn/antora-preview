@@ -1,0 +1,14 @@
+= Antora Preview Tool
+
+This tool can be used to quickly preview an Antora documentation website.
+
+== How to use
+
+Run the following command on top of any project containing Antora documentation:
+
+`docker run --rm --publish 2020:2020 --volume "${PWD}":/antora vshn/antora-preview:2.3.3 docs`
+
+NOTE: The `docs` parameter above corresponds to the subfolder where the `antora.yml` file is located.
+
+Open the URL http://localhost:2020 to browse the documentation.
+
