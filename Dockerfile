@@ -12,7 +12,7 @@ RUN tar -zxvf /antora/caddy.tar.gz
 RUN mv /antora/caddy /usr/local/bin/caddy
 
 RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.0/ui-bundle.zip -o /preview/bundle.appuio.zip
-RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.3/ui-bundle.zip -o /preview/bundle.syn.zip
+RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundle.syn.zip
 RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.7/ui-bundle.zip -o /preview/bundle.vshn.zip
 RUN curl --silent --location https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable -o /preview/bundle.antora.zip
 
