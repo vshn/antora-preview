@@ -19,7 +19,7 @@ case $i in
         echo "Arguments:"
         echo "    --style=STYLE / -s=STYLE:"
         echo "           Antora UI Bundle to use to render the documentation."
-        echo "           Valid values: 'vshn', 'appuio', 'syn'."
+        echo "           Valid values: 'vshn', 'appuio', 'syn', 'antora'."
         echo "           Default value: 'vshn'"
         echo ""
         echo "    -a=PATH / --antora=PATH:"
