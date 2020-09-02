@@ -23,5 +23,5 @@ asciidoc:
 output:
   destinations:
   - provider: fs
-    path: ./public
+    path: /preview/public
     clean: true

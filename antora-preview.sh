@@ -44,7 +44,7 @@ if [ ! -f "$ANTORA_FILE" ]; then
 	exit 1
 fi
 
-ANTORA_BUNDLE=/bundle.$ANTORA_STYLE.zip
+ANTORA_BUNDLE=/preview/bundle.$ANTORA_STYLE.zip
 if [ ! -f "$ANTORA_BUNDLE" ]; then
 	echo "Cannot find Antora UI Bundle '$ANTORA_BUNDLE'"
 	exit 1
@@ -56,15 +56,15 @@ echo "Generating Antora documentation for component '$COMPONENT' in file '$ANTOR
 echo "Using style: $ANTORA_STYLE"
 
 # Overwrite values in Antora playbook
-yq w --inplace /playbook.yml 'site.start_page' "$COMPONENT"::index.adoc
-yq w --inplace /playbook.yml 'content.sources[0].start_path' "$ANTORA_PATH"
-yq w --inplace /playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
+yq w --inplace /preview/playbook.yml 'site.start_page' "$COMPONENT"::index.adoc
+yq w --inplace /preview/playbook.yml 'content.sources[0].start_path' "$ANTORA_PATH"
+yq w --inplace /preview/playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
 
 # Generate website
-antora /playbook.yml
-cd /public || exit
+antora --cache-dir=/preview/public/.cache/antora /preview/playbook.yml
+cd /preview/public || exit
 
 # Launch Caddy web server
-cp /Caddyfile /public/Caddyfile
+cp /preview/Caddyfile /preview/public/Caddyfile
 caddy run
 
