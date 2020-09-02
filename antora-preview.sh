@@ -52,11 +52,14 @@ fi
 
 # Read component name from antora.yml
 COMPONENT=$(yq r /antora/"$ANTORA_PATH"/antora.yml 'name')
-echo "Generating Antora documentation for component '$COMPONENT' in file '$ANTORA_FILE'"
-echo "Using style: $ANTORA_STYLE"
+TITLE=$(yq r /antora/"$ANTORA_PATH"/antora.yml 'title')
+echo "===> Generating Antora documentation for component '$TITLE' in file '$ANTORA_FILE'"
+echo "===> Using style: $ANTORA_STYLE"
+echo ""
 
 # Overwrite values in Antora playbook
 yq w --inplace /preview/playbook.yml 'site.start_page' "$COMPONENT"::index.adoc
+yq w --inplace /preview/playbook.yml 'site.title' "$TITLE"
 yq w --inplace /preview/playbook.yml 'content.sources[0].start_path' "$ANTORA_PATH"
 yq w --inplace /preview/playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
 
@@ -65,6 +68,8 @@ antora --cache-dir=/preview/public/.cache/antora /preview/playbook.yml
 cd /preview/public || exit
 
 # Launch Caddy web server
+echo "===> Open http://localhost:2020 in your browser to see the documentation"
+echo ""
 cp /preview/Caddyfile /preview/public/Caddyfile
 caddy run
 
