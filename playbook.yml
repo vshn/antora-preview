@@ -1,6 +1,6 @@
 site:
-  title: "Preview Documentation"
-  url: http://localhost/
+  title: "Antora Documentation Preview"
+  url: http://localhost:2020/
   start_page: COMPONENT_NAME::index.adoc
 content:
   sources:
@@ -9,7 +9,7 @@ content:
     start_path: ANTORA_PATH
 ui:
   bundle:
-    url: https://github.com/vshn/antora-ui-default/releases/download/1.7/ui-bundle.zip
+    url: ANTORA_UI_BUNDLE
     snapshot: false
 asciidoc:
   attributes:

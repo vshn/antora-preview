@@ -8,6 +8,10 @@ RUN curl --silent --location https://github.com/caddyserver/caddy/releases/downl
 RUN tar -zxvf /antora/caddy.tar.gz
 RUN mv /antora/caddy /usr/local/bin/caddy
 
+RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.0/ui-bundle.zip -o /bundle.appuio.zip
+RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.3/ui-bundle.zip -o /bundle.syn.zip
+RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.7/ui-bundle.zip -o /bundle.vshn.zip
+
 COPY antora-preview.sh /usr/local/bin/
 COPY signal-listener.sh /usr/local/bin/
 COPY playbook.yml /playbook.yml
