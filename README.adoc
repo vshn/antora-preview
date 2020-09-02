@@ -6,9 +6,29 @@ This tool can be used to quickly preview an Antora documentation website.
 
 Run the following command on top of any project containing Antora documentation:
 
-`docker run --rm --publish 2020:2020 --volume "${PWD}":/antora vshn/antora-preview:2.3.3 docs`
+`docker run --rm --publish 2020:2020 --volume "${PWD}":/antora vshn/antora-preview:2.3.3 --antora=docs --style=vshn`
 
-NOTE: The `docs` parameter above corresponds to the subfolder where the `antora.yml` file is located.
+Passing the `--help` parameter shows the inline help:
+
+```
+Antora Documentation Previewer
+
+This command builds an Antora documentation website locally
+and launches a web server on port 2020 to browse the documentation.
+
+Arguments:
+    --style=STYLE / -s=STYLE:
+           Antora UI Bundle to use to render the documentation.
+           Valid values: 'vshn', 'appuio', 'syn'.
+           Default value: 'vshn'
+
+    -a=PATH / --antora=PATH:
+           Path to the subfolder.
+           Default: 'docs'
+
+Examples:
+    antora-preview --style=appuio --antora=src
+```
 
 Open the URL http://localhost:2020 to browse the documentation.
 
