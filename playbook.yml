@@ -13,6 +13,7 @@ ui:
     snapshot: false
 asciidoc:
   attributes:
+    page-pagination: ''
     hide-uri-scheme: ''
     experimental: ''
     stem: ''
