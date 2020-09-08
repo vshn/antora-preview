@@ -11,10 +11,10 @@ case $i in
     ANTORA_PATH="${i#*=}"
     ;;
     *)
+        echo ""
         echo "Antora Documentation Previewer"
         echo ""
-        echo "This command builds an Antora documentation website locally"
-        echo "and launches a web server on port 2020 to browse the documentation."
+        echo "This command builds an Antora documentation website locally and launches a web server on port 2020 to browse the documentation."
         echo ""
         echo "Arguments:"
         echo "    --style=STYLE / -s=STYLE:"
@@ -28,6 +28,8 @@ case $i in
         echo ""
         echo "Examples:"
         echo "    antora-preview --style=appuio --antora=src"
+        echo ""
+        echo "GitHub project: https://github.com/vshn/antora-preview"
         echo ""
         exit 0
     ;;
@@ -66,7 +68,14 @@ yq w --inplace /preview/playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
 antora --cache-dir=/preview/public/.cache/antora /preview/playbook.yml
 
 # Launch Caddy web server
-echo "===> Open http://localhost:2020 in your browser to see the documentation"
+echo ""
+echo " _____________________________________________________________________"
+echo "|                                                                     |"
+echo "| Open http://localhost:2020 in your browser to see the documentation |"
+echo "|                                                                     |"
+echo "| IMPORTANT! LIVE RELOADING REQUIRES A BROWSER PLUGIN!                |"
+echo "| More info here: https://github.com/vshn/antora-preview#livereload   |"
+echo "|_____________________________________________________________________|"
 echo ""
 caddy start
 guard --no-interactions --group=documentation

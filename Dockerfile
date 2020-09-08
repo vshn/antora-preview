@@ -5,7 +5,13 @@ RUN mkdir -p /preview && chown -R preview:preview /preview
 
 WORKDIR /preview
 
-RUN apk update && apk add unzip build-base ruby-dev
+# The libnotify requirement courtesy of
+# https://github.com/bebraven/platform/pull/82/files
+# to fix file system notification issues when running this image in a Mac
+
+RUN apk update && apk add unzip build-base ruby-dev libnotify
+RUN gem install guard guard-livereload guard-shell libnotify
+
 RUN curl --silent --location https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 -o /usr/local/bin/yq
 RUN chmod +x /usr/local/bin/yq
 
@@ -13,8 +19,6 @@ RUN curl --silent --location https://github.com/caddyserver/caddy/releases/downl
 RUN tar -zxvf /preview/caddy.tar.gz
 RUN mv /preview/caddy /usr/local/bin/caddy
 RUN rm /preview/caddy.tar.gz
-
-RUN gem install guard guard-livereload guard-shell
 
 RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.0/ui-bundle.zip -o /preview/bundle.appuio.zip
 RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundle.syn.zip

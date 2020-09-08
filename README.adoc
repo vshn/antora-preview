@@ -15,8 +15,7 @@ Passing the `--help` parameter shows the inline help:
 ```
 Antora Documentation Previewer
 
-This command builds an Antora documentation website locally
-and launches a web server on port 2020 to browse the documentation.
+This command builds an Antora documentation website locally and launches a web server on port 2020 to browse the documentation.
 
 Arguments:
     --style=STYLE / -s=STYLE:
@@ -30,6 +29,8 @@ Arguments:
 
 Examples:
     antora-preview --style=appuio --antora=src
+
+GitHub project: https://github.com/vshn/antora-preview
 ```
 
 Open the URL http://localhost:2020 to browse the documentation.
@@ -41,4 +42,4 @@ This image is capable of "live reloading" the documention as the user writes the
 * https://addons.mozilla.org/en-US/firefox/addon/livereload-web-extension/[Firefox]
 * https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei[Google Chrome]
 
-Open the documentation in your browser and, in the case of Firefox, click on the LiveReload extension button on the toolbar; when it becomes green, the browser will automatically refresh whenever you save an Asciidoc file.
+Open the documentation in your browser and click on the LiveReload extension button on the toolbar; when it becomes green, the browser will automatically refresh whenever you save an Asciidoc file.
