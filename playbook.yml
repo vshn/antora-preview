@@ -4,7 +4,7 @@ site:
   start_page: COMPONENT_NAME::index.adoc
 content:
   sources:
-  - url: /antora
+  - url: /preview/antora
     branches: HEAD         # "HEAD" uses whichever branch is currently checked out
     start_path: ANTORA_PATH
 ui:

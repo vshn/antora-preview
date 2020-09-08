@@ -1,5 +1,6 @@
 :2020
-
-root * .
-file_server
-
+file_server {
+    root /preview/public
+    index index.html
+}
+encode zstd gzip

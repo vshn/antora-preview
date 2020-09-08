@@ -8,7 +8,7 @@ The image is available in https://hub.docker.com/r/vshn/antora-preview[Docker Hu
 
 Run the following command on top of any project containing Antora documentation:
 
-`docker run --rm --publish 2020:2020 --volume "${PWD}":/antora vshn/antora-preview:2.3.3 --antora=docs --style=vshn`
+`docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora vshn/antora-preview:2.3.3 --antora=docs --style=appuio`
 
 Passing the `--help` parameter shows the inline help:
 
@@ -34,3 +34,11 @@ Examples:
 
 Open the URL http://localhost:2020 to browse the documentation.
 
+== LiveReload
+
+This image is capable of "live reloading" the documention as the user writes the Asciidoc source. To do that, you need a browser with one of these extensions:
+
+* https://addons.mozilla.org/en-US/firefox/addon/livereload-web-extension/[Firefox]
+* https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei[Google Chrome]
+
+Open the documentation in your browser and, in the case of Firefox, click on the LiveReload extension button on the toolbar; when it becomes green, the browser will automatically refresh whenever you save an Asciidoc file.

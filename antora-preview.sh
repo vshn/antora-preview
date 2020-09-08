@@ -37,8 +37,7 @@ done
 ANTORA_STYLE=${ANTORA_STYLE:-vshn}
 ANTORA_PATH=${ANTORA_PATH:-docs}
 
-cd /antora || exit
-ANTORA_FILE=/antora/$ANTORA_PATH/antora.yml
+ANTORA_FILE=/preview/antora/$ANTORA_PATH/antora.yml
 if [ ! -f "$ANTORA_FILE" ]; then
 	echo "Cannot find Antora file '$ANTORA_FILE'"
 	exit 1
@@ -51,8 +50,8 @@ if [ ! -f "$ANTORA_BUNDLE" ]; then
 fi
 
 # Read component name from antora.yml
-COMPONENT=$(yq r /antora/"$ANTORA_PATH"/antora.yml 'name')
-TITLE=$(yq r /antora/"$ANTORA_PATH"/antora.yml 'title')
+COMPONENT=$(yq r /preview/antora/"$ANTORA_PATH"/antora.yml 'name')
+TITLE=$(yq r /preview/antora/"$ANTORA_PATH"/antora.yml 'title')
 echo "===> Generating Antora documentation for component '$TITLE' in file '$ANTORA_FILE'"
 echo "===> Using style: $ANTORA_STYLE"
 echo ""
@@ -65,11 +64,9 @@ yq w --inplace /preview/playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
 
 # Generate website
 antora --cache-dir=/preview/public/.cache/antora /preview/playbook.yml
-cd /preview/public || exit
 
 # Launch Caddy web server
 echo "===> Open http://localhost:2020 in your browser to see the documentation"
 echo ""
-cp /preview/Caddyfile /preview/public/Caddyfile
-caddy run
-
+caddy start
+guard --no-interactions --group=documentation
