@@ -8,7 +8,10 @@ The image is available in https://hub.docker.com/r/vshn/antora-preview[Docker Hu
 
 Run the following command on top of any project containing Antora documentation:
 
-`docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora vshn/antora-preview:2.3.4 --antora=docs --style=appuio`
+[source,bash]
+--
+$ docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora vshn/antora-preview:2.3.6 --antora=docs --style=appuio
+--
 
 Passing the `--help` parameter shows the inline help:
 
@@ -34,6 +37,20 @@ GitHub project: https://github.com/vshn/antora-preview
 ```
 
 Open the URL http://localhost:2020 to browse the documentation.
+
+== Previewing Your Own Bundles
+
+If you would like to use your own `ui-bundle.zip` file for preview, follow these steps.
+
+. Build your custom UI bundle; assuming the new file is located in `/home/user/antora-default-ui/build/custom-ui-bundle.zip`
+. Launch the previewer sharing a new volume, pointing to the location above mapped as `/preview/bundles` in the container, and specifying the `--style` parameter with the `custom-ui-bundle` name (this is the basename of the zip file above):
+
+[source,bash]
+--
+$ docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora --volume /home/user/antora-default-ui/build/:/preview/bundles vshn/antora-preview:2.3.6 --antora=docs --style=custom-ui-bundle
+--
+
+If needed, force refresh the page in your browser to clear any cache.
 
 == LiveReload
 

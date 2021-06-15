@@ -45,24 +45,24 @@ if [ ! -f "$ANTORA_FILE" ]; then
 	exit 1
 fi
 
-ANTORA_BUNDLE=/preview/bundle.$ANTORA_STYLE.zip
+ANTORA_BUNDLE=/preview/bundles/$ANTORA_STYLE.zip
 if [ ! -f "$ANTORA_BUNDLE" ]; then
 	echo "Cannot find Antora UI Bundle '$ANTORA_BUNDLE'"
 	exit 1
 fi
 
 # Read component name from antora.yml
-COMPONENT=$(yq r /preview/antora/"$ANTORA_PATH"/antora.yml 'name')
-TITLE=$(yq r /preview/antora/"$ANTORA_PATH"/antora.yml 'title')
+COMPONENT=$(yq eval '.name' /preview/antora/"$ANTORA_PATH"/antora.yml)
+TITLE=$(yq eval '.title' /preview/antora/"$ANTORA_PATH"/antora.yml)
 echo "===> Generating Antora documentation for component '$TITLE' in file '$ANTORA_FILE'"
 echo "===> Using style: $ANTORA_STYLE"
 echo ""
 
 # Overwrite values in Antora playbook
-yq w --inplace /preview/playbook.yml 'site.start_page' "$COMPONENT"::index.adoc
-yq w --inplace /preview/playbook.yml 'site.title' "$TITLE"
-yq w --inplace /preview/playbook.yml 'content.sources[0].start_path' "$ANTORA_PATH"
-yq w --inplace /preview/playbook.yml 'ui.bundle.url' "$ANTORA_BUNDLE"
+yq eval --inplace '.site.start_page="'"$COMPONENT"'::index.adoc"' /preview/playbook.yml
+yq eval --inplace '.site.title="'"$TITLE"'"' /preview/playbook.yml
+yq eval --inplace '.content.sources[0].start_path="'"$ANTORA_PATH"'"' /preview/playbook.yml
+yq eval --inplace '.ui.bundle.url="'"$ANTORA_BUNDLE"'"' /preview/playbook.yml
 
 # Generate website
 antora --cache-dir=/preview/public/.cache/antora /preview/playbook.yml
