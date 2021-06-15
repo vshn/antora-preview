@@ -21,7 +21,8 @@ Passing the `--help` parameter shows the inline help:
 ```
 Antora Documentation Previewer
 
-This command builds an Antora documentation website locally and launches a web server on port 2020 to browse the documentation.
+This command builds an Antora documentation website locally and launches a web
+server on port 2020 to browse the documentation.
 
 Arguments:
     --style=STYLE / -s=STYLE:
