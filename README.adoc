@@ -10,7 +10,10 @@ Run the following command on top of any project containing Antora documentation:
 
 [source,bash]
 --
-$ docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora vshn/antora-preview:2.3.6 --antora=docs --style=appuio
+$ docker run --rm --publish 35729:35729 \
+             --publish 2020:2020 \
+             --volume "${PWD}":/preview/antora \
+             vshn/antora-preview:2.3.6 --antora=docs --style=appuio
 --
 
 Passing the `--help` parameter shows the inline help:
@@ -47,7 +50,10 @@ If you would like to use your own `ui-bundle.zip` file for preview, follow these
 
 [source,bash]
 --
-$ docker run --rm --publish 35729:35729 --publish 2020:2020 --volume "${PWD}":/preview/antora --volume /home/user/antora-default-ui/build/:/preview/bundles vshn/antora-preview:2.3.6 --antora=docs --style=custom-ui-bundle
+$ docker run --rm --publish 35729:35729 --publish 2020:2020 \
+             --volume "${PWD}":/preview/antora \
+             --volume /home/user/antora-default-ui/build/:/preview/bundles \
+             vshn/antora-preview:2.3.6 --antora=docs --style=custom-ui-bundle
 --
 
 If needed, force refresh the page in your browser to clear any cache.
