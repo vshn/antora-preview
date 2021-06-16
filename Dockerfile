@@ -24,7 +24,7 @@ RUN mkdir /preview/bundles
 RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.0/ui-bundle.zip -o /preview/bundles/appuio.zip
 RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundles/syn.zip
 RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.8.1/ui-bundle.zip -o /preview/bundles/old-vshn.zip
-RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/2.0.1/ui-bundle.zip -o /preview/bundles/vshn.zip
+RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/2.0.2/ui-bundle.zip -o /preview/bundles/vshn.zip
 RUN curl --silent --location https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable -o /preview/bundles/antora.zip
 
 COPY antora-preview.sh /usr/local/bin/
