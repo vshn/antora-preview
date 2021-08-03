@@ -27,7 +27,7 @@ server on port 2020 to browse the documentation.
 Arguments:
     --style=STYLE / -s=STYLE:
            Antora UI Bundle to use to render the documentation.
-           Valid values: 'vshn', 'appuio', 'syn', 'antora'.
+           Valid values: 'vshn', 'appuio', 'syn', 'k8up', 'antora'.
            Default value: 'vshn'
 
     -a=PATH / --antora=PATH:
