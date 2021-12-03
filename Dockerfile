@@ -1,4 +1,4 @@
-FROM vshn/antora:2.3.3
+FROM vshn/antora:2.3.3-1
 
 RUN addgroup -S preview && adduser -S preview -G preview
 RUN mkdir -p /preview && chown -R preview:preview /preview
@@ -26,7 +26,7 @@ RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/rel
 RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/2.1.0/ui-bundle.zip -o /preview/bundles/syn.zip
 RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.8.1/ui-bundle.zip -o /preview/bundles/old-vshn.zip
 RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/2.0.14/ui-bundle.zip -o /preview/bundles/vshn.zip
-RUN curl --silent --location https://github.com/k8up-io/antora-ui-default/releases/download/1.1.1/ui-bundle.zip -o /preview/bundles/k8up.zip
+RUN curl --silent --location https://github.com/k8up-io/antora-ui-default/releases/download/1.2.0/ui-bundle.zip -o /preview/bundles/k8up.zip
 RUN curl --silent --location https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable -o /preview/bundles/antora.zip
 
 COPY antora-preview.sh /usr/local/bin/
