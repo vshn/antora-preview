@@ -21,7 +21,7 @@ RUN mv /preview/caddy /usr/local/bin/caddy
 RUN rm /preview/caddy.tar.gz
 
 RUN mkdir /preview/bundles
-RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.1/ui-bundle.zip -o /preview/bundles/appuio.zip
+RUN curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.2/ui-bundle.zip -o /preview/bundles/appuio.zip
 RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundles/old-syn.zip
 RUN curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/2.1.0/ui-bundle.zip -o /preview/bundles/syn.zip
 RUN curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.8.1/ui-bundle.zip -o /preview/bundles/old-vshn.zip
