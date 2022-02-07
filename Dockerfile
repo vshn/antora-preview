@@ -30,7 +30,6 @@ RUN curl --silent --location https://github.com/k8up-io/antora-ui-default/releas
 RUN curl --silent --location https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable -o /preview/bundles/antora.zip
 
 COPY antora-preview.sh /usr/local/bin/
-COPY signal-listener.sh /usr/local/bin/
 
 USER preview
 
@@ -39,4 +38,4 @@ COPY Caddyfile /preview/Caddyfile
 COPY Guardfile /preview/Guardfile
 
 EXPOSE 2020
-ENTRYPOINT ["signal-listener.sh"]
+ENTRYPOINT ["antora-preview.sh"]
