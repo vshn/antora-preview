@@ -1,5 +1,23 @@
 #!/bin/sh
 
+# A wrapper to run subprocesses in the background but forward SIGTERM/SIGINT to them
+# Adapted from https://medium.com/@manish_demblani/docker-container-uncaught-kill-signal-d5ed22698293
+signalListener() {
+    "$@" &
+    pid="$!"
+    trap "caddy stop; echo 'Stopping PID $pid'; kill -SIGTERM $pid" SIGINT SIGTERM
+
+    # A signal emitted while waiting will make the wait command return code > 128
+    # Let's wrap it in a loop that doesn't end before the process is indeed stopped
+    while kill -0 $pid > /dev/null 2>&1; do
+	# Only wait for the specific child pid we extracted in this function,
+	# as otherwise we wait forever for the ruby subprocess started by
+	# `guard` which is apparently not properly terminated when sending
+	# `SIGTERM` to `guard`.
+        wait $pid
+    done
+}
+
 for i in "$@"
 do
 case $i in
@@ -78,4 +96,4 @@ echo "| More info here: https://github.com/vshn/antora-preview#livereload   |"
 echo "|_____________________________________________________________________|"
 echo ""
 caddy start
-guard --no-interactions --group=documentation
+signalListener guard --no-interactions --group=documentation
