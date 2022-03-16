@@ -96,4 +96,4 @@ echo "| More info here: https://github.com/vshn/antora-preview#livereload   |"
 echo "|_____________________________________________________________________|"
 echo ""
 caddy start
-signalListener guard --no-interactions --group=documentation
+signalListener guard --no-interactions -w antora/src public
