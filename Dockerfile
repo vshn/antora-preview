@@ -1,4 +1,4 @@
-FROM vshn/antora:3.0.1
+FROM vshn/antora:3.0.3
 
 RUN addgroup -S preview && adduser -S preview -G preview && \
     mkdir -p /preview/bundles && chown -R preview:preview /preview
