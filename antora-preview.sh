@@ -96,4 +96,4 @@ echo "| More info here: https://github.com/vshn/antora-preview#livereload   |"
 echo "|_____________________________________________________________________|"
 echo ""
 caddy start
-signalListener guard --no-interactions -w "antora/${ANTORA_PATH}" public
+signalListener guard -p --no-interactions -w "antora/${ANTORA_PATH}" public
