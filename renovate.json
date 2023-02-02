@@ -1,3 +1,13 @@
 {
-  "enabled": false
+  "extends": [
+    "config:base",
+    ":assignee(arska)"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ]
+  
 }
