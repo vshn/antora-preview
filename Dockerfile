@@ -13,7 +13,7 @@ RUN set -x && \
     apk update && apk add --no-cache build-base ruby-dev ruby libnotify caddy yq && \
     gem install --no-document guard guard-livereload guard-shell libnotify json && \
     apk del build-base ruby-dev && \
-    curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.6/ui-bundle.zip -o /preview/bundles/appuio.zip && \
+    curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.8/ui-bundle.zip -o /preview/bundles/appuio.zip && \
     curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundles/old-syn.zip && \
     curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/2.1.0/ui-bundle.zip -o /preview/bundles/syn.zip && \
     curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/1.8.1/ui-bundle.zip -o /preview/bundles/old-vshn.zip && \
