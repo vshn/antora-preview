@@ -2,8 +2,6 @@
 
 This tool can be used to quickly preview an Antora documentation website.
 
-The image is available in https://hub.docker.com/r/vshn/antora-preview[Docker Hub].
-
 == How to use
 
 Run the following command on top of any project containing Antora documentation:
