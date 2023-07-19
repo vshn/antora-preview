@@ -1,4 +1,4 @@
-FROM ghcr.io/vshn/antora:3.1.2.2
+FROM ghcr.io/vshn/antora:3.1.4
 
 RUN addgroup -S preview && adduser -S preview -G preview && \
     mkdir -p /preview/bundles && chown -R preview:preview /preview
