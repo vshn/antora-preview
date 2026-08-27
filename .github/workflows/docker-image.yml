@@ -25,11 +25,20 @@ jobs:
         with:
           fetch-tags: true
 
-      - name: Extract Antora version
-        id: antora
+      # The released version is the version of the antora base image plus the
+      # revision in REVISION, so that a change to this repository alone can be
+      # released without waiting for a new antora release. Bump REVISION when
+      # you need a new release and the base image has not moved.
+      - name: Determine image version
+        id: version
         run: |
-          VERSION=$(sed -n 's/^FROM ghcr\.io\/vshn\/antora:\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' Dockerfile)
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          ANTORA_VERSION=$(sed -n 's/^FROM ghcr\.io\/vshn\/antora:\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' Dockerfile)
+          REVISION=$(tr -d '[:space:]' < REVISION)
+          if [ -z "$ANTORA_VERSION" ] || [ -z "$REVISION" ]; then
+            echo "cannot determine version: antora='$ANTORA_VERSION' revision='$REVISION'" >&2
+            exit 1
+          fi
+          echo "version=${ANTORA_VERSION}.${REVISION}" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -74,7 +83,7 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
             type=ref,event=pr
-            type=raw,value=${{ steps.antora.outputs.version }},enable=${{ github.ref == 'refs/heads/master' }}
+            type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.ref == 'refs/heads/master' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
@@ -93,7 +102,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.antora.outputs.version }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
           if git ls-remote --tags origin "refs/tags/$VERSION" | grep -q .; then
             echo "Tag $VERSION already exists, skipping"
