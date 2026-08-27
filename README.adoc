@@ -86,6 +86,10 @@ before the image is published. This matters because the base image and the
 this image does happens at build time, so a green `docker build` says almost
 nothing about whether the preview still starts.
 
+CI runs it on `amd64` and on `arm64`, each on a native runner, because the
+image is published for both and most people run it on an arm64 Mac. Nothing is
+published or released unless both pass.
+
 Set `PREVIEW_PORT`, `LIVERELOAD_PORT` or `STARTUP_TIMEOUT` if the defaults
 (2020, 35729, 300 seconds) do not suit your machine.
 

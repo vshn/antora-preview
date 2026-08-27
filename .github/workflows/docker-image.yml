@@ -13,7 +13,48 @@ env:
   TEST_IMAGE: antora-preview:test
 
 jobs:
-  build-and-push-image:
+  # The image is published for both architectures, and most of the people
+  # running it day to day are on arm64 Macs, so both architectures get tested.
+  # Each runs on a native runner: under QEMU an Antora build takes long enough
+  # to make the timeouts in the smoke test meaningless.
+  smoke-test:
+    name: Smoke test (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # Build into the runner's Docker daemon so the smoke test can start the
+      # image. Everything that can break here (Antora, Caddy, Ruby, guard and
+      # its plugins) only runs at container start, and the base image is bumped
+      # automatically by Renovate, so a green `docker build` proves very little.
+      - name: Build image for testing
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          platforms: linux/${{ matrix.arch }}
+          tags: ${{ env.TEST_IMAGE }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+
+      - name: Smoke test
+        run: test/smoke-test.sh "${{ env.TEST_IMAGE }}"
+
+  publish:
+    needs: smoke-test
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -48,24 +89,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      # Build a single-arch image into the runner's Docker daemon first so the
-      # smoke test can actually start it. Everything that can break in this
-      # image (Antora, Caddy, Ruby, guard and its plugins) only runs at
-      # container start, and the base image is bumped automatically by
-      # Renovate, so a green `docker build` on its own proves very little.
-      - name: Build image for testing
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          load: true
-          platforms: linux/amd64
-          tags: ${{ env.TEST_IMAGE }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Smoke test
-        run: test/smoke-test.sh "${{ env.TEST_IMAGE }}"
-
       - name: Log in to the Container registry
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v4
@@ -85,6 +108,8 @@ jobs:
             type=ref,event=pr
             type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.ref == 'refs/heads/master' }}
 
+      # Both architectures were just built natively by the smoke-test jobs, so
+      # this mostly assembles the manifest from their cached layers.
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
@@ -93,11 +118,12 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha,scope=amd64
+            type=gha,scope=arm64
 
-      # Tag and release only after the image has passed the smoke test and been
-      # published, so a broken build never gets a release.
+      # Tag and release only after the image has passed the smoke test on both
+      # architectures and been published, so a broken build never gets a release.
       - name: Create git tag and release
         if: github.ref == 'refs/heads/master'
         env:
