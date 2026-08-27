@@ -1,0 +1,6 @@
+= Smoke Test Home
+
+This page exists so that `test/smoke-test.sh` can assert the preview server
+actually rendered and served AsciiDoc content.
+
+ANTORA_PREVIEW_SMOKE_TEST_MARKER

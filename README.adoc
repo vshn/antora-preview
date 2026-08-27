@@ -65,3 +65,26 @@ This image is capable of "live reloading" the documention as the user writes the
 * https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei[Google Chrome]
 
 Open the documentation in your browser and click on the LiveReload extension button on the toolbar; when it becomes green, the browser will automatically refresh whenever you save an Asciidoc file.
+
+== Testing
+
+`test/smoke-test.sh` builds nothing; it starts an already built image and checks
+that the preview really works: that Ruby can load `guard` and its plugins, that
+Antora renders the fixture in `test/fixture` without warnings, that Caddy serves
+the rendered page and the UI bundle, and that the LiveReload server is
+listening.
+
+[source,bash]
+--
+$ docker build -t antora-preview:test .
+$ test/smoke-test.sh antora-preview:test
+--
+
+The same script runs in CI on every pull request and on every push to `master`,
+before the image is published. This matters because the base image and the
+`ui-bundle.zip` downloads are updated automatically by Renovate: none of what
+this image does happens at build time, so a green `docker build` says almost
+nothing about whether the preview still starts.
+
+Set `PREVIEW_PORT`, `LIVERELOAD_PORT` or `STARTUP_TIMEOUT` if the defaults
+(2020, 35729, 300 seconds) do not suit your machine.
