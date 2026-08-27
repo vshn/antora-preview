@@ -10,10 +10,15 @@ WORKDIR /preview
 # The libnotify requirement courtesy of
 # https://github.com/bebraven/platform/pull/82/files
 # to fix file system notification issues when running this image in a Mac
+#
+# `base64` is a transitive requirement of guard-livereload (via em-websocket).
+# It stopped being a Ruby default gem in Ruby 3.4, so it has to be installed
+# explicitly or `guard :livereload` fails to load and the Guardfile aborts.
+# See https://www.ruby-lang.org/en/news/2024/12/25/ruby-3-4-0-released/
 
 RUN set -x && \
     apk update && apk add --no-cache build-base ruby-dev ruby libnotify caddy && \
-    gem install --no-document guard guard-livereload guard-shell libnotify json && \
+    gem install --no-document guard guard-livereload guard-shell libnotify json base64 && \
     apk del build-base ruby-dev && \
     curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.8/ui-bundle.zip -o /preview/bundles/appuio.zip && \
     curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/1.4/ui-bundle.zip -o /preview/bundles/old-syn.zip && \
