@@ -1,0 +1,6 @@
+name: smoketest
+title: Antora Preview Smoke Test
+version: ~
+start_page: ROOT:index.adoc
+nav:
+- modules/ROOT/nav.adoc
