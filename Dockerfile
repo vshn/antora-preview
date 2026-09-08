@@ -22,7 +22,7 @@ RUN set -x && \
     apk del build-base ruby-dev && \
     curl --silent --location https://github.com/appuio/antora-ui-default/releases/download/1.8/ui-bundle.zip -o /preview/bundles/appuio.zip && \
     curl --silent --location https://github.com/projectsyn/antora-ui-default/releases/download/2.1.0/ui-bundle.zip -o /preview/bundles/syn.zip && \
-    curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/2.3.1/ui-bundle.zip -o /preview/bundles/vshn.zip && \
+    curl --silent --location https://github.com/vshn/antora-ui-default/releases/download/v2.3.3/ui-bundle.zip -o /preview/bundles/vshn.zip && \
     curl --silent --location https://github.com/k8up-io/antora-ui-default/releases/download/1.2.0/ui-bundle.zip -o /preview/bundles/k8up.zip && \
     curl --silent --location https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable -o /preview/bundles/antora.zip
 
