@@ -6,16 +6,40 @@
   "packageRules": [
     {
       "description": "Auto-merge GitHub Actions updates",
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "automerge": true,
       "automergeType": "pr",
-      "matchUpdateTypes": ["major", "minor", "patch", "digest"]
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "digest"
+      ]
     },
     {
       "description": "Auto-merge all minor and patch updates",
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "pr"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track the Antora UI bundles baked into the image. The old-syn.zip and old-vshn.zip pins that this manager used to exclude were removed in the same change, so every GitHub-released bundle is now matched and a bundle added later is tracked without anyone remembering to extend a list. antora.zip is a GitLab job artifact rather than a release and has no version to track, so it stays out by virtue of the github.com host. versioningTemplate is explicit because vshn/antora-ui-default changed tag format mid-stream (2.3.1, then v2.3.2, v2.3.3).",
+      "fileMatch": [
+        "^Dockerfile$"
+      ],
+      "matchStrings": [
+        "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/ui-bundle\\.zip"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
     }
   ]
 }
