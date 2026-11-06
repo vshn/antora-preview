@@ -36,7 +36,7 @@
         "^Dockerfile$"
       ],
       "matchStrings": [
-        "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/ui-bundle(-[a-z]+)?\\.zip"
+        "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/ui-bundle(-[a-z0-9]+)?\\.zip"
       ],
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
