@@ -31,12 +31,12 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Track the Antora UI bundles baked into the image. The old-syn.zip and old-vshn.zip pins that this manager used to exclude were removed in the same change, so every GitHub-released bundle is now matched and a bundle added later is tracked without anyone remembering to extend a list. antora.zip is a GitLab job artifact rather than a release and has no version to track, so it stays out by virtue of the github.com host. versioningTemplate is explicit because vshn/antora-ui-default changed tag format mid-stream (2.3.1, then v2.3.2, v2.3.3).",
+      "description": "Track the Antora UI bundles baked into the image. The old-syn.zip and old-vshn.zip pins that this manager used to exclude were removed in the same change, so every GitHub-released bundle is now matched and a bundle added later is tracked without anyone remembering to extend a list. antora.zip is a GitLab job artifact rather than a release and has no version to track, so it stays out by virtue of the github.com host. versioningTemplate is explicit because vshn/antora-ui-default changed tag format mid-stream (2.3.1, then v2.3.2, v2.3.3). Since v3, vshn/antora-ui publishes one asset per brand (ui-bundle-appuio.zip, ui-bundle-syn.zip, ui-bundle-k8up.zip next to ui-bundle.zip), so the brand suffix is optional in the pattern (vshn/antora-ui#204).",
       "fileMatch": [
         "^Dockerfile$"
       ],
       "matchStrings": [
-        "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/ui-bundle\\.zip"
+        "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/ui-bundle(-[a-z]+)?\\.zip"
       ],
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
