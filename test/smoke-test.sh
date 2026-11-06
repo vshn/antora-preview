@@ -132,12 +132,17 @@ if [ "$ready" -eq 1 ]; then
   fi
 
   # The UI bundle has to be unpacked into the site, otherwise the pages render
-  # unstyled and the --style flag is silently doing nothing.
-  if curl --silent --fail --max-time 30 --output /dev/null \
-    "http://localhost:${PREVIEW_PORT}/_/css/site.css" 2>/dev/null; then
-    pass "UI bundle assets served"
+  # unstyled and the --style flag is silently doing nothing. Bundles from
+  # vshn/antora-ui v3 hash their asset names (site-db8bacea.css), so read the
+  # stylesheet path from the rendered page instead of assuming one.
+  css="$(grep -o '_/css/[^"]*\.css' <<<"$body" | head -n 1 || true)"
+  if [ -z "$css" ]; then
+    fail "fixture page links no stylesheet from the UI bundle"
+  elif curl --silent --fail --max-time 30 --output /dev/null \
+    "http://localhost:${PREVIEW_PORT}/${css}" 2>/dev/null; then
+    pass "UI bundle assets served (/${css})"
   else
-    fail "UI bundle assets missing (/_/css/site.css)"
+    fail "UI bundle assets missing (/${css})"
   fi
 
   # guard-livereload serves its client script over the same port it uses for
